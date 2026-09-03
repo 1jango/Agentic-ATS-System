@@ -3,18 +3,16 @@
 A high-performance, asynchronous AI recruitment system that automates CV screening using a multi-agent architecture. This project transforms raw PDF resumes into structured candidate profiles and evaluates them against specific job descriptions (JD).
 
 ## Key Features
-- **Multi-Agent Architecture**: Uses a two-stage process combining `smolagents` for reasoning and `Pydantic-AI` for structured data validation.
-- **Agentic Reasoning**: The system doesn't just match keywords; it analyzes professional experience, education, and skills semantically.
-- **Python-Powered Tools**: Integrated custom tools for precise calculations (e.g., total years of experience) to prevent LLM "hallucinations" in math.
-- **Infrastructure Resilience**: Implemented **Exponential Backoff** logic to handle API rate limits and 503 Service Unavailable errors gracefully.
-- **Provider Agnostic**: Built on top of **LiteLLM**, allowing seamless switching between OpenAI (GPT-4o) and Google Gemini models.
+- **Agentic Reasoning**: A `smolagents` CodeAgent extracts structured facts from the CV (name, employment history, skills) — it doesn't just match keywords.
+- **Python-Powered Tools**: Custom tools (`calculate_experience`, `skill_match_validator`) do the actual years-of-experience and skill-matching math deterministically, to prevent LLM "hallucinations" in numbers.
+- **Model Fallback**: Tries multiple Groq models in order (`qwen3.8-27b` → `qwen3.6-27b`) so a single model outage or deprecation doesn't break screening.
 
-## ️ Technical Stack
-- **Backend**: FastAPI (Python 3.14+)
-- **Orchestration**: `smolagents` (HuggingFace) & `Pydantic-AI`
-- **LLM Gateway**: `LiteLLM`
+## Technical Stack
+- **Backend**: FastAPI
+- **Orchestration**: `smolagents` (HuggingFace)
+- **LLM Gateway**: `LiteLLM` (currently configured for Groq)
 - **Validation**: `Pydantic v2`
-- **PDF Processing**: `PyMuPDF` / `Marker`
+- **PDF Processing**: `PyMuPDF` (`pymupdf4llm`)
 
 ## Project Structure
 ```text
@@ -22,6 +20,7 @@ A high-performance, asynchronous AI recruitment system that automates CV screeni
 ├── api/             # FastAPI routes and endpoint definitions
 ├── models/          # Pydantic schemas and data contracts
 ├── services/        # PDF parsing and core business logic
-├── utils/           # Logging and resilience utilities
+├── utils/           # Logging utilities
+├── samples/         # Sample CV + job description for manual testing
 ├── main.py          # Application entry point
 └── requirements.txt # Project dependencies

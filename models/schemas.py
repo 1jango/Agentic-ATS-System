@@ -8,6 +8,3 @@ class Candidate(BaseModel):
     primary_skills: List[str] = Field(..., description="List of core technical skills found")
     match_score: int = Field(..., ge=0, le=100, description="Overall match score (0-100)")
     reasoning: str = Field(..., description="Brief explanation for the score")
-
-class ScreeningRequest(BaseModel):
-    job_description: str

@@ -1,0 +1,8 @@
+{
+  // Root config: compiles nothing itself, just points to the two project configs below.
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}

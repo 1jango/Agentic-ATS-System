@@ -1,39 +1,19 @@
 import uvicorn
-from fastapi import FastAPI, UploadFile, File, Form, BackgroundTasks
-from services.parser import DocumentProcessor
-from agents.screener import ScreeningAgent
-from utils.logger import logger
-import uuid
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from api.routes import router as screening_router
 
 app = FastAPI(title="Agentic CV Screener Pro")
-agent = ScreeningAgent()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.post("/v1/screen")
-async def screen_cv(
-        background_tasks: BackgroundTasks,
-        file: UploadFile = File(...),
-        job_description: str = Form(...)
-):
-    request_id = str(uuid.uuid4())
-    logger.info("request_received", request_id=request_id, filename=file.filename)
-
-    # 1. Parse PDF
-    content = await file.read()
-    cv_markdown = await DocumentProcessor.process_cv(content)
-
-    # 2. Agentic Reasoning
-    try:
-        candidate_result = await agent.screen(cv_markdown, job_description)
-
-
-        return {
-            "request_id": request_id,
-            "data": candidate_result
-        }
-    except Exception as e:
-        logger.error("screening_failed", request_id=request_id, error=str(e))
-        return {"error": "Processing failed", "details": str(e)}
+app.include_router(screening_router)
 
 
 if __name__ == "__main__":
