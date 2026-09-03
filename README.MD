@@ -22,8 +22,39 @@ A high-performance ATS agent built with FastAPI and smolagents. Automates CV scr
 ├── models/          # Pydantic schemas and data contracts
 ├── services/        # PDF parsing and core business logic
 ├── utils/           # Logging utilities
-├── samples/         # Sample CV + job description for manual testing
 ├── frontend/        # React + TypeScript UI
 ├── main.py          # Application entry point
 └── requirements.txt # Project dependencies
 ```
+
+## Getting Started
+
+### 1. Backend
+
+```bash
+python -m venv .venv
+source .venv/bin/activate      # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+Create a `.env` file in the project root (see `.env.example`):
+
+```
+GROQ_API_KEY=your-groq-api-key
+```
+
+Run the API:
+
+```bash
+uvicorn main:app --reload --port 8000
+```
+
+### 2. Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`. The frontend expects the backend at `http://localhost:8000` (configurable via `frontend/.env`, see `frontend/.env.example`).
