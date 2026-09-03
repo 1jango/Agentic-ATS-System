@@ -1,6 +1,6 @@
-# Agentic-CV-Screener
+Agentic CV Screener
 
-A high-performance, asynchronous AI recruitment system that automates CV screening using a multi-agent architecture. This project transforms raw PDF resumes into structured candidate profiles and evaluates them against specific job descriptions (JD).
+A high-performance ATS agent built with FastAPI and smolagents. Automates CV screening by converting PDF resumes to Markdown and using agentic reasoning to evaluate candidates against a job description.
 
 ## Key Features
 - **Agentic Reasoning**: A `smolagents` CodeAgent extracts structured facts from the CV (name, employment history, skills) — it doesn't just match keywords.
@@ -13,6 +13,7 @@ A high-performance, asynchronous AI recruitment system that automates CV screeni
 - **LLM Gateway**: `LiteLLM` (currently configured for Groq)
 - **Validation**: `Pydantic v2`
 - **PDF Processing**: `PyMuPDF` (`pymupdf4llm`)
+- **Frontend**: React + TypeScript (Vite)
 
 ## Project Structure
 ```text
@@ -22,5 +23,7 @@ A high-performance, asynchronous AI recruitment system that automates CV screeni
 ├── services/        # PDF parsing and core business logic
 ├── utils/           # Logging utilities
 ├── samples/         # Sample CV + job description for manual testing
+├── frontend/        # React + TypeScript UI
 ├── main.py          # Application entry point
 └── requirements.txt # Project dependencies
+```
